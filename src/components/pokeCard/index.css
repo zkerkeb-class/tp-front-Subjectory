@@ -1,68 +1,91 @@
-.poke-card{
-    /* background-color: red; */
-    /* background-color: #7B4B94; */
-    border-radius: 4px;
-    display:flex;
-    flex-direction: column;
-    width: 200px;
-    min-height: 250px;
+/* --- LE CSS DE LA CARTE (NE CHANGE PAS LE HAUT) --- */
+.poke-card-modern {
+    position: relative;
+    width: 100%;
+    max-width: 280px;
+    background: rgba(30, 30, 35, 0.8); /* Fond un peu plus opaque */
+    border-radius: 20px;
+    padding: 15px; /* Padding réduit pour laisser place aux stats */
     cursor: pointer;
-}
-
-.poke-title{
-    color: white;
-    text-transform: capitalize;
-    font-size: 12px;
-}
-
-.poke-card-header{
+    transition: 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding: 8px;
-    padding-right: 40px;
-    width: fit-content;
-    clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 100%, 0 100%);
-    background-color: #6A3B7A;
 }
 
+/* ... TES STYLES HOVER, HEADER, IMAGE, INFO SONT OK, GARDE-LES ... */
+.poke-card-modern:hover { transform: translateY(-5px); background: rgba(40, 40, 45, 1); }
+.card-header { width: 100%; display: flex; justify-content: space-between; margin-bottom: 10px; }
+.card-id { color: #888; font-weight: bold; }
+.card-types { display: flex; gap: 5px; }
+.mini-type-dot { width: 8px; height: 8px; border-radius: 50%; }
+.card-image-container { position: relative; width: 120px; height: 120px; margin-bottom: 10px; display: flex; justify-content: center; }
+.card-img { width: 100%; height: 100%; object-fit: contain; z-index: 2; }
+.img-aura { position: absolute; width: 80%; height: 80%; background: var(--card-color); filter: blur(30px); opacity: 0.4; border-radius: 50%; }
+.card-info { text-align: center; margin-bottom: 15px; }
+.card-name { color: white; margin: 0; text-transform: capitalize; }
+.card-main-type { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; color: #aaa; }
 
-.poke-image{
+
+/* --- LE PROBLÈME EST ICI : GRILLE DES STATS CORRIGÉE --- */
+
+.card-stats-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes strictes */
+    justify-items: center; /* Centre les éléments dans chaque cellule */
+    column-gap: 10px; /* Espace horizontal entre les colonnes */
+    row-gap: 10px;    /* Espace vertical entre les lignes */
+    background: rgba(0, 0, 0, 0.4); /* Fond noir semi-transparent */
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: auto;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column; /* Force l'empilement vertical */
+    gap: 4px; /* Espace entre le texte et la barre */
     width: 100px;
-    height: 100px;
 }
 
-.poke-image-background{
-    background-color: blanchedalmond;
-    margin:8px;
-}
-
-.poke-type-font{
-    font-size: 10px;
-}
-
-.poke-stat-row{
+/* Ligne Texte (HP ... 45) */
+.stat-header-row {
     display: flex;
     justify-content: space-between;
-    padding: 0px 8px;
+    align-items: center;
+    width: 100%;
 }
 
-/* Couleurs par type de Pokémon */
-.poke-card-header.poke-type-normal { background-color: #A8A878; }
-.poke-card-header.poke-type-fire { background-color: #F08030; }
-.poke-card-header.poke-type-water { background-color: #6890F0; }
-.poke-card-header.poke-type-grass { background-color: #78C850; }
-.poke-card-header.poke-type-electric { background-color: #F8D030; }
-.poke-card-header.poke-type-ice { background-color: #98D8D8; }
-.poke-card-header.poke-type-fighting { background-color: #C03028; }
-.poke-card-header.poke-type-poison { background-color: #A040A0; }
-.poke-card-header.poke-type-ground { background-color: #E0C068; }
-.poke-card-header.poke-type-flying { background-color: #A890F0; }
-.poke-card-header.poke-type-psychic { background-color: #F85888; }
-.poke-card-header.poke-type-bug { background-color: #A8B820; }
-.poke-card-header.poke-type-rock { background-color: #B8A038; }
-.poke-card-header.poke-type-ghost { background-color: #705898; }
-.poke-card-header.poke-type-dragon { background-color: #7038F8; }
-.poke-card-header.poke-type-dark { background-color: #705848; }
-.poke-card-header.poke-type-steel { background-color: #B8B8D0; }
-.poke-card-header.poke-type-fairy { background-color: #EE99AC; }
+.stat-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: white;
+}
+
+/* Ligne Barre (Le Rail) */
+.stat-bar-container {
+    width: 100%;
+    height: 6px; /* HAUTEUR FORCÉE */
+    background-color: rgba(255, 255, 255, 0.15); /* GRIS CLAIR VISIBLE */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* La Barre Remplie */
+.stat-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 5px currentColor; /* Petit effet brillant */
+    transition: width 0.3s ease;
+}
