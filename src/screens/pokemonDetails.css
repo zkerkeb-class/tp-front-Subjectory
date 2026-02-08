@@ -123,8 +123,8 @@ html, body, #root {
 .types-row {
     display: flex;
     gap: 12px;
-    margin-top: 20px;
-    justify-content: flex-start; /* Aligné à gauche près du nom */
+    margin-top: 10px;
+    justify-content: flex-start;
 }
 
 .type-badge-detail {
@@ -142,6 +142,48 @@ html, body, #root {
 
 .type-badge-detail:hover {
     transform: translateY(-3px);
+}
+
+/* autres noms du pokémon */
+.international-names {
+    display: flex;
+    gap: 12px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.name-tag {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 5px 12px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.name-tag:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--type-color);
+    transform: translateY(-2px);
+}
+
+.lang-label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: var(--type-color);
+    opacity: 0.7;
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lang-value {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 /* Stats poke */
@@ -207,7 +249,7 @@ html, body, #root {
     background: linear-gradient(90deg, var(--type-color) 0%, #fff 250%);
     border-radius: 20px;
     position: relative;
-    animation: growBar 1.2s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
+    animation: growBar 2.5s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
     transition: width 0.5s ease-out;
 }
 

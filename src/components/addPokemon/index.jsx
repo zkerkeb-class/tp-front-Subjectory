@@ -1,13 +1,23 @@
 import { useState, useEffect } from 'react';
 import usePokemon from '../../hook/usePokemon';
+import { TYPE_COLORS, DEFAULT_STATS } from '../../constants/pokemonConstants';
+import PokeImage from '../pokeCard/pokeImage';
+import PokeStatInput from '../pokeStatInput';
 import './index.css';
 
-const TYPE_COLORS = {
-    Normal: '#A8A878', Fire: '#F08030', Water: '#6890F0', Grass: '#78C850',
-    Electric: '#F8D030', Ice: '#98D8D8', Fighting: '#C03028', Poison: '#A040A0',
-    Ground: '#E0C068', Flying: '#A890F0', Psychic: '#F85888', Bug: '#A8B820',
-    Rock: '#B8A038', Ghost: '#705898', Dragon: '#7038F8', Steel: '#B8B8D0', Fairy: '#EE99AC'
-};
+const PokeInputField = ({ label, type = "text", value, onChange, placeholder, className = "modern-input" }) => (
+    <div className="input-group">
+        <input 
+            className={className}
+            type={type}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            required 
+        />
+        <label className="input-label">{label}</label>
+    </div>
+);
 
 const AddPokemon = () => {
     const { addPokemon } = usePokemon();
@@ -16,11 +26,10 @@ const AddPokemon = () => {
     const [formData, setFormData] = useState({
         name: { french: '' },
         type: ['Normal'],
-        base: { HP: 50, Attack: 50, Defense: 50, "Special Attack": 50, "Special Defense": 50, Speed: 50 },
+        base: { ...DEFAULT_STATS },
         image: ''
     });
 
-    // Met à jour la couleur de l'aura quand le type change
     useEffect(() => {
         const mainType = formData.type[0];
         setGlowColor(TYPE_COLORS[mainType] || '#fff');
@@ -50,11 +59,11 @@ const AddPokemon = () => {
 
     return (
         <>
-        <div className="add-btn-container">
-            <button className="main-add-btn" onClick={() => setIsOpen(true)}>
-                <span className="plus-icon">+</span> Ajouter un Pokémon
-            </button>
-        </div>
+            <div className="add-btn-container">
+                <button className="main-add-btn" onClick={() => setIsOpen(true)}>
+                    <span className="plus-icon">+</span> Ajouter un Pokémon
+                </button>
+            </div>
 
             {isOpen && (
                 <div className="modal-overlay">
@@ -63,28 +72,26 @@ const AddPokemon = () => {
                         <h2 className="form-title">Création de Pokémon</h2>
                         
                         <div className="form-layout">
-                            {/* COLONNE GAUCHE : Info & Image */}
                             <div className="left-column">
                                 <div className="image-preview-container">
                                     <div className="preview-glow" style={{background: glowColor}}></div>
                                     {formData.image ? (
-                                        <img src={formData.image} className="image-preview" onError={(e) => e.target.style.display='none'} />
+                                        <PokeImage 
+                                            imageUrl={formData.image} 
+                                            alt="Preview" 
+                                            className="image-preview" 
+                                        />
                                     ) : (
                                         <div className="image-placeholder">Pas d'image</div>
                                     )}
                                 </div>
-
-                                <div className="input-group">
-                                    <input 
-                                        className="modern-input"
-                                        type="text"
-                                        placeholder="Nom (ex: Mewthree)" 
-                                        value={formData.name.french}
-                                        onChange={(e) => setFormData({...formData, name: {french: e.target.value}})}
-                                        required 
-                                    />
-                                    <label className="input-label">Nom</label>
-                                </div>
+                                
+                                <PokeInputField 
+                                    label="Nom"
+                                    placeholder="Nom (ex: Mewthree)"
+                                    value={formData.name.french}
+                                    onChange={(e) => setFormData({...formData, name: {french: e.target.value}})}
+                                />
 
                                 <div className="input-group">
                                     <select 
@@ -100,34 +107,27 @@ const AddPokemon = () => {
                                     <label className="input-label">Type Principal</label>
                                 </div>
 
-                                <div className="input-group">
-                                    <input 
-                                        className="modern-input"
-                                        type="text"
-                                        placeholder="https://lien-image.com/..." 
-                                        value={formData.image}
-                                        onChange={(e) => setFormData({...formData, image: e.target.value})}
-                                    />
-                                    <label className="input-label">URL Image</label>
-                                </div>
+                                <PokeInputField 
+                                    label="URL Image"
+                                    placeholder="https://lien-image.com/..."
+                                    value={formData.image}
+                                    onChange={(e) => setFormData({...formData, image: e.target.value})}
+                                />
                             </div>
 
-                            {/* COLONNE DROITE : Stats */}
                             <div className="right-column">
                                 <h3 className="stats-title">Statistiques de base</h3>
                                 <div className="stats-grid-modern">
                                     {Object.keys(formData.base).map(stat => (
-                                        <div key={stat} className="stat-box">
-                                            <label>{stat}</label>
-                                            <input 
-                                                type="number" 
-                                                min="1" max="255"
-                                                className="stat-input-modern"
-                                                value={formData.base[stat]}
-                                                onChange={(e) => handleStatChange(stat, e.target.value)}
-                                                style={{borderColor: glowColor}}
-                                            />
-                                        </div>
+                                        <PokeStatInput 
+                                            key={stat}
+                                            label={stat}
+                                            value={formData.base[stat]}
+                                            color={glowColor}
+                                            className="stat-box"
+                                            inputClassName="stat-input-modern"
+                                            onChange={(newValue) => handleStatChange(stat, newValue)}
+                                        />
                                     ))}
                                 </div>
                             </div>

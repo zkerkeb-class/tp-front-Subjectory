@@ -1,24 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import usePokemon from '../hook/usePokemon';
+import PokeTypeBadge from '../components/pokeCard/pokeTypeBadge';
+import PokeTitle from '../components/pokeCard/pokeTitle';
+import PokeImage from '../components/pokeCard/pokeImage';
+import PokeStatBar from '../components/pokeStatBar';
+import PokeIdBadge from '../components/pokeIdBadge';
+import PokeStatInput from '../components/pokeStatInput';
+import InternationalNames from '../components/internationalNames';
+import { TYPE_COLORS, MAX_STATS_GEN1 } from '../constants/pokemonConstants';
 import './pokemonDetails.css';
-
-const TYPE_COLORS = {
-    grass: '#78C850', fire: '#F08030', water: '#6890F0', bug: '#A8B820',
-    normal: '#A8A878', poison: '#A040A0', electric: '#F8D030', ground: '#E0C068',
-    fairy: '#EE99AC', fighting: '#C03028', psychic: '#F85888', rock: '#B8A038',
-    ghost: '#705898', ice: '#98D8D8', dragon: '#7038F8', dark: '#705848',
-    steel: '#B8B8D0', flying: '#A890F0'
-};
-
-const MAX_STATS_GEN1 = {
-    HP: 250,
-    Attack: 134,
-    Defense: 180,
-    SpecialAttack: 154,
-    SpecialDefense: 154,
-    Speed: 140
-};
 
 const PokemonDetails = () => {
     const { id } = useParams();
@@ -64,7 +55,7 @@ const PokemonDetails = () => {
         </div>
     );
 
-    const mainType = pokemonData.type[0].toLowerCase();
+    const mainType = pokemonData.type[0]
     const themeColor = TYPE_COLORS[mainType] || '#777';
 
     return (
@@ -83,11 +74,20 @@ const PokemonDetails = () => {
                 <div className="pokemon-header">
                     <div className="image-section">
                         <div className="glow-circle"></div>
-                        <img src={pokemonData.image} alt={pokemonData.name.french} className="main-img" />
+                        <PokeImage 
+                            imageUrl={pokemonData.image} 
+                            alt={pokemonData.name.french} 
+                            className="main-img" 
+                        />
                     </div>
 
                     <div className="info-section">
-                        <div className="id-badge">N°{pokemonData.id.toString().padStart(3, '0')}</div>
+                        <PokeIdBadge 
+                            id={pokemonData.id} 
+                            color={themeColor} 
+                            className="id-badge" 
+                            prefix="N°" 
+                        />
                         {editMode ? (
                             <div className="edit-main-info">
                                 <label className="edit-label">Nom du Pokémon</label>
@@ -99,18 +99,24 @@ const PokemonDetails = () => {
                                 />
                             </div>
                         ) : (
-                            <h1 className="poke-name">{pokemonData.name.french}</h1>
+                            <>
+                                <PokeTitle 
+                                    name={pokemonData.name} 
+                                    className="poke-name" 
+                                />
+                                
+                                {/* Noms du poké dans d'autres langues */}
+                                <InternationalNames names={pokemonData.name} />
+                            </>
                         )}
-                        {/* SECTION TYPES DANS LA INFO-SECTION */}
                         <div className="types-row">
                             {pokemonData.type.map((t) => (
-                                <span 
+                                <PokeTypeBadge
                                     key={t} 
+                                    type={t} 
+                                    color={TYPE_COLORS[t]} 
                                     className="type-badge-detail" 
-                                    style={{ backgroundColor: TYPE_COLORS[t.toLowerCase()] || '#777' }}
-                                >
-                                    {t}
-                                </span>
+                                />
                             ))}
                         </div>
                     </div>
@@ -119,38 +125,33 @@ const PokemonDetails = () => {
                 <div className="stats-section">
                 <h3 className="section-title">Base Stats</h3>
                 <div className="stats-grid">
-                    {Object.entries(form.base).map(([key, value]) => {
-                        // Calcul du pourcentage basé sur le max de la catégorie
-                        const maxVal = MAX_STATS_GEN1[key] || 100;
-                        const percentage = Math.min((value / maxVal) * 100, 100);
-
-                        return (
-                            <div key={key} className="stat-row">
-                                <span className="stat-label">{key}</span>
-                                {editMode ? (
-                                    <input 
-                                        type="number" 
-                                        className="stat-input-field"
-                                        value={value} 
-                                        onChange={(e) => setForm({
+                    {Object.entries(form.base).map(([key, value]) => (
+                        <div key={key}>
+                            {editMode ? (
+                                <div className="stat-row">
+                                    <PokeStatInput 
+                                        label={key}
+                                        value={value}
+                                        color={themeColor}
+                                        className="stat-row"
+                                        inputClassName="stat-input-modern"
+                                        onChange={(newValue) => setForm({
                                             ...form, 
-                                            base: {...form.base, [key]: parseInt(e.target.value) || 0}
+                                            base: { ...form.base, [key]: newValue }
                                         })}
                                     />
-                                ) : (
-                                    <div className="stat-bar-wrapper">
-                                        <span className="stat-num">{value}</span>
-                                        <div className="stat-bar-bg">
-                                            <div 
-                                                className="stat-bar-fill" 
-                                                style={{ width: `${percentage}%` }}
-                                            ></div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
+                                </div>
+                            ) : (
+                                <PokeStatBar 
+                                    label={key}
+                                    value={value}
+                                    maxVal={MAX_STATS_GEN1[key]}
+                                    color={themeColor}
+                                    className="stat-row"
+                                />
+                            )}
+                        </div>
+                    ))}
                 </div>
             </div>
 

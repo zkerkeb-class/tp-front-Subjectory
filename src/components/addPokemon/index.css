@@ -1,4 +1,4 @@
-/* --- Bouton Principal --- */
+/* Bouton Principal */
 .add-btn-container {
     display: flex;
     justify-content: center;
@@ -108,7 +108,7 @@
     text-transform: uppercase;
 }
 
-/* Select Customisé */
+/* Select custom */
 .modern-select {
     width: 100%;
     padding: 12px;
