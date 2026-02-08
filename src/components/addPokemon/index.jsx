@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import usePokemon from '../../hook/usePokemon';
 import './index.css';
 
-// On reprend les couleurs du style "Details" pour la cohérence
 const TYPE_COLORS = {
     Normal: '#A8A878', Fire: '#F08030', Water: '#6890F0', Grass: '#78C850',
     Electric: '#F8D030', Ice: '#98D8D8', Fighting: '#C03028', Poison: '#A040A0',
@@ -69,7 +68,7 @@ const AddPokemon = () => {
                                 <div className="image-preview-container">
                                     <div className="preview-glow" style={{background: glowColor}}></div>
                                     {formData.image ? (
-                                        <img src={formData.image} alt="Prévisualisation" className="image-preview" onError={(e) => e.target.style.display='none'} />
+                                        <img src={formData.image} className="image-preview" onError={(e) => e.target.style.display='none'} />
                                     ) : (
                                         <div className="image-placeholder">Pas d'image</div>
                                     )}

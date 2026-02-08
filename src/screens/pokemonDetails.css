@@ -1,6 +1,5 @@
-/* --- RESET GLOBAL ET FIX SCROLLBAR --- */
 * {
-    box-sizing: border-box; /* Indispensable pour que padding n'ajoute pas de largeur */
+    box-sizing: border-box;
 }
 
 html, body, #root {
@@ -9,7 +8,7 @@ html, body, #root {
     width: 100%;
     min-height: 100%;
     background-color: #0f0f12;
-    overflow-x: hidden; /* Empêche tout débordement global */
+    overflow-x: hidden;
 }
 
 :root {
@@ -18,29 +17,28 @@ html, body, #root {
     --text-dim: #a0a0b0;
 }
 
-/* --- PAGE DETAILS --- */
+/* PAGE DETAILS */
 .details-page {
     min-height: 100vh;
-    width: 100%; /* Remplacé 100vw par 100% pour éviter le bug de la scrollbar */
+    width: 100%;
     background-attachment: fixed;
     background-color: var(--bg-dark);
     margin: 0;
-    position: relative; /* Changé absolute en relative pour un meilleur flux de scroll */
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 60px 20px;
     z-index: 1;
-    overflow-x: hidden; /* Sécurité pour l'aura ::before */
+    overflow-x: hidden;
 }
 
-/* Aura de fond dynamique - Optimisée */
 .details-page::before {
     content: '';
     position: absolute;
     top: -10%;
     left: 50%;
-    transform: translateX(-50%); /* Centre l'aura horizontalement */
+    transform: translateX(-50%);
     width: 800px;
     height: 800px;
     background: radial-gradient(circle, var(--type-color-glow) 0%, transparent 70%);
@@ -68,12 +66,18 @@ html, body, #root {
     align-items: center;
     gap: 60px;
     margin-bottom: 50px;
-    flex-wrap: wrap; /* Permet l'adaptation sur mobile */
+    flex-wrap: wrap;
     justify-content: center;
 }
 
 .image-section {
     position: relative;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .glow-circle {
@@ -119,20 +123,33 @@ html, body, #root {
 .types-row {
     display: flex;
     gap: 12px;
-    margin-top: 15px;
+    margin-top: 20px;
+    justify-content: flex-start; /* Aligné à gauche près du nom */
 }
 
-.type-tag {
-    padding: 6px 20px;
-    border-radius: 30px;
-    font-size: 0.85rem;
+.type-badge-detail {
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 0.9rem;
     font-weight: 800;
     text-transform: uppercase;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease;
 }
 
-/* Statistiques */
+.type-badge-detail:hover {
+    transform: translateY(-3px);
+}
+
+/* Stats poke */
+.stats-section {
+    width: 100%;
+    animation: fadeIn 1.5s ease-out;
+}
+
 .section-title {
     font-size: 1.5rem;
     margin-bottom: 25px;
@@ -145,27 +162,23 @@ html, body, #root {
     background: rgba(0,0,0,0.3);
     border-radius: 25px;
     padding: 30px;
-    
-    /* --- MODIFICATION : GRID 2 COLONNES --- */
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Deux colonnes de taille égale */
-    column-gap: 40px; /* Espace horizontal entre les colonnes (le "trou" au milieu) */
-    row-gap: 20px;    /* Espace vertical entre les lignes */
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px; 
+    row-gap: 20px;
 }
 
 .stat-row {
     display: flex;
     align-items: center;
-    /* On change 'flex-start' en 'space-between' pour coller le label à gauche et l'input à droite */
     justify-content: space-between; 
     gap: 20px;
     width: 100%;
-    /* On retire le margin-bottom car c'est le row-gap de la grille qui gère l'espace maintenant */
     margin-bottom: 0; 
 }
 
 .stat-label {
-    width: 140px; /* Taille fixe pour l'alignement */
+    width: 140px;
     font-size: 0.75rem;
     font-weight: bold;
     color: var(--text-dim);
@@ -194,6 +207,7 @@ html, body, #root {
     background: linear-gradient(90deg, var(--type-color) 0%, #fff 250%);
     border-radius: 20px;
     position: relative;
+    animation: growBar 1.2s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
     transition: width 0.5s ease-out;
 }
 
@@ -206,11 +220,18 @@ html, body, #root {
     animation: glint 3s infinite;
 }
 
-@keyframes glint {
-    to { left: 150%; }
+/* Modif de pokemons */
+.edit-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--type-color);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+    opacity: 0.8;
 }
 
-/* Formulaires d'édition - Tailles maîtrisées */
 .edit-main-info {
     display: flex;
     flex-direction: column;
@@ -273,11 +294,11 @@ html, body, #root {
 
 .back-btn:hover { color: white; transform: translateX(-5px); }
 
-/* --- MODALE DE SUPPRESSION (Danger Zone) --- */
+/* MODALE DE SUPPRESSION */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.85); /* Fond très sombre */
+    background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
@@ -287,14 +308,13 @@ html, body, #root {
 }
 
 .danger-modal-card {
-    background: #15151a; /* Carte sombre */
-    border: 1px solid rgba(239, 68, 68, 0.4); /* Bordure ROUGE subtile */
+    background: #15151a;
+    border: 1px solid rgba(239, 68, 68, 0.4);
     border-radius: 25px;
     padding: 40px;
     text-align: center;
     max-width: 420px;
     width: 90%;
-    /* Ombre rouge menaçante */
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(220, 38, 38, 0.15);
     animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
@@ -326,7 +346,7 @@ html, body, #root {
 /* Actions (Boutons) */
 .modal-actions {
     display: flex;
-    flex-direction: column; /* Boutons l'un sous l'autre pour l'importance */
+    flex-direction: column;
     gap: 12px;
     width: 100%;
 }
@@ -368,7 +388,7 @@ html, body, #root {
     border-color: white;
 }
 
-/* --- PAGE D'ERREUR (404) --- */
+/* PAGE D'ERREUR (404) */
 .error-page {
     width: 100%;
     height: 100vh;
@@ -377,7 +397,7 @@ html, body, #root {
     align-items: center;
     background-color: #0f0f12;
     background-image: radial-gradient(circle at 50% 50%, #2a2a35 0%, #0f0f12 70%);
-    position: fixed; /* Passe par-dessus tout */
+    position: fixed;
     top: 0; left: 0;
     z-index: 1000;
 }
@@ -444,18 +464,41 @@ html, body, #root {
     box-shadow: 0 0 30px rgba(255,255,255,0.4);
 }
 
-@keyframes shake {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-10deg); }
-    75% { transform: rotate(10deg); }
+/* Loader (qd la page n'a pas encore chargé) */
+.loader-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f0f12;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--type-color, #6e8efb);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
 /* Animations */
 @keyframes popIn { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+@keyframes glint {
+    to { left: 150%; }
+}
 
-/* Responsive : On repasse à 1 colonne sur mobile pour ne pas tout écraser */
+@keyframes growBar {
+    from { width: 0; }
+}
+
+/* Responsive : Passe à 1 colonne sur mobile */
 @media (max-width: 768px) {
     .stats-grid {
         grid-template-columns: 1fr;

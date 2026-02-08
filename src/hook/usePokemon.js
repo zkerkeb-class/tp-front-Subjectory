@@ -6,7 +6,7 @@ const usePokemon = (page = 1, search = '', type = 'All') => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // --- FONCTION D'AJOUT (Inchangée) ---
+    // POST un pokemon
     const addPokemon = async (newPokemon) => {
         try {
             const response = await fetch(`http://localhost:3000/pokemons`, {
@@ -33,7 +33,7 @@ const usePokemon = (page = 1, search = '', type = 'All') => {
                 const isSingle = window.location.pathname.includes('pokemon');
 
                 if (isSingle) {
-                    // --- CAS 1 : PAGE DÉTAIL (Un seul Pokémon) ---
+                    // CAS 1 : Page détail (Un seul Pokémon)
                     // Ici 'page' contient l'ID du Pokémon
                     const response = await fetch(`http://localhost:3000/pokemons/${page}`);
                     if (!response.ok) throw new Error('Erreur réseau');
@@ -41,50 +41,42 @@ const usePokemon = (page = 1, search = '', type = 'All') => {
                     setPokemonData(result);
 
                 } else if (type === 'All') {
-                    // --- CAS 2 : LISTE "TOUS" (Mode Serveur) ---
-                    // C'est ici qu'on récupère la pagination correcte (1/8) du serveur
-                    // On utilise les paramètres 'page' et 'search' que ton backend connaît déjà
+                    // CAS 2 : Liste tous les pokémons
+                    // Pagination correcte (1/8) du serveur
                     const url = `http://localhost:3000/pokemons?page=${page}&search=${search}`;
                     
                     const response = await fetch(url);
                     if (!response.ok) throw new Error('Erreur réseau');
                     
                     const result = await response.json();
-                    
-                    // On fait confiance au serveur pour la pagination
                     setData({
-                        pokemons: result.pokemons || result, // Adaptation selon format API
+                        pokemons: result.pokemons || result,
                         totalPages: result.totalPages || 1
                     });
 
                 } else {
-                    // --- CAS 3 : FILTRE PAR TYPE (Mode Client) ---
-                    // Le backend ne filtre pas les types, donc on essaie de tout charger
-                    // Note : Si le backend bloque à 20 items même avec limit=1000, 
-                    // le filtre ne se fera que sur ces 20 items.
+                    // CAS 3 : Filtre par type de pokémon
                     const url = `http://localhost:3000/pokemons?limit=1000`; 
                     
                     const response = await fetch(url);
                     if (!response.ok) throw new Error('Erreur réseau');
                     
                     const result = await response.json();
-                    
-                    // Récupération sécurisée du tableau
                     let allPokemons = [];
                     if (Array.isArray(result)) allPokemons = result;
                     else if (result.pokemons) allPokemons = result.pokemons;
                     
-                    // 1. Filtrage par RECHERCHE (Client-side pour cohérence)
+                    // 1. Filtrage par search
                     let filtered = allPokemons.filter(p => 
                         p.name.french.toLowerCase().includes(search.toLowerCase())
                     );
 
-                    // 2. Filtrage par TYPE
+                    // 2. Filtrage par type
                     if (type && type !== 'All') {
                         filtered = filtered.filter(p => p.type.includes(type));
                     }
 
-                    // 3. PAGINATION LOCALE (Calculée par nous)
+                    // 3. Pagination par 20 pokémons maax
                     const itemsPerPage = 20;
                     const totalPagesCalc = Math.ceil(filtered.length / itemsPerPage);
                     
@@ -106,9 +98,7 @@ const usePokemon = (page = 1, search = '', type = 'All') => {
             }
         };
 
-        fetchData();
-        
-        // On relance à chaque changement
+        fetchData();        
     }, [page, search, type]);
 
     return { ...data, pokemonData, loading, error, addPokemon };

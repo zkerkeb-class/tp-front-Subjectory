@@ -24,7 +24,7 @@
 .plus-icon { font-size: 1.5rem; line-height: 1; }
 .main-add-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -15px rgba(110, 142, 251, 0.7); }
 
-/* --- Modale & Glassmorphism --- */
+/* Modale & Glassmorphism */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -70,7 +70,6 @@
     letter-spacing: 2px;
 }
 
-/* --- Layout 2 Colonnes --- */
 .form-layout {
     display: flex;
     gap: 40px;
@@ -78,7 +77,6 @@
 
 .left-column, .right-column { flex: 1; }
 
-/* --- Inputs Modernes (Style "Souligné") --- */
 .input-group {
     position: relative;
     margin-bottom: 25px;
@@ -121,17 +119,15 @@
     font-weight: bold;
     cursor: pointer;
     outline: none;
-    /* On garde la couleur dynamique pour la sélection fermée */
 }
 
 .modern-select option {
-    background-color: #1a1a20; /* Fond gris foncé solide (pas transparent) */
-    color: #ffffff;            /* Texte blanc forcé */
+    background-color: #1a1a20;
+    color: #ffffff;
     padding: 10px;
     font-weight: bold;
 }
 
-/* --- Prévisualisation Image --- */
 .image-preview-container {
     width: 150px; height: 150px;
     margin: 0 auto 30px;
@@ -165,7 +161,7 @@
     z-index: 2;
 }
 
-/* --- Stats Grid --- */
+/* Stats Grid */
 .stats-title {
     text-align: center; color: rgba(255,255,255,0.7);
     text-transform: uppercase; margin-bottom: 20px;
@@ -200,7 +196,7 @@
 
 .stat-input-modern:focus { outline: none; border-color: var(--active-color); border-radius: 10px;}
 
-/* --- Actions --- */
+/* Actions */
 .form-actions-modern {
     display: flex; gap: 20px; justify-content: end; margin-top: 30px;
 }

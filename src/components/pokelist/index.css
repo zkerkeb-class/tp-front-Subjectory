@@ -1,4 +1,4 @@
-/* --- 1. CONTENEUR GLOBAL --- */
+/* 1. CONTENEUR GLOBAL */
 .poke-list-container {
     width: 100%;
     min-height: 100vh;
@@ -10,7 +10,7 @@
     padding: 40px 20px;
 }
 
-/* --- 2. EN-TÊTE & TITRE --- */
+/* 2. EN-TÊTE & TITRE */
 .list-header {
     width: 100%;
     max-width: 1200px;
@@ -39,7 +39,7 @@
     padding-left: 10px;
 }
 
-/* --- 3. BARRE DE CONTRÔLES --- */
+/* 3. BARRE DE CONTRÔLES */
 .controls-bar {
     display: flex;
     gap: 20px;
@@ -91,68 +91,71 @@
 
 .glass-search::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-/* --- 3.5 BARRE DE FILTRES (Scrollable Chips) --- */
+/* --- BARRE DE FILTRES (Modern Chips Grid) --- */
+
 .filters-wrapper {
     width: 100%;
-    max-width: 1000px;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    scrollbar-width: none; 
-    -ms-overflow-style: none;
+    max-width: 1000px; /* Limite la largeur pour garder les boutons groupés au centre */
+    margin: 20px auto 40px auto; /* Marge généreuse pour aérer le titre et la liste */
+    padding: 0 20px;
 }
-.filters-wrapper::-webkit-scrollbar { display: none; }
 
 .filters-container {
     display: flex;
-    flex-wrap: wrap; 
-    justify-content: center;
-    gap: 10px;
+    flex-wrap: wrap; /* Permet aux boutons de passer à la ligne proprement */
+    justify-content: center; /* Centre les boutons horizontalement */
+    align-items: center;
+    gap: 12px; /* Espacement uniforme entre chaque bouton */
     
-    /* --- CORRECTION ICI --- */
-    /* On passe de "0 5px" à "15px 5px" */
-    /* Cela donne 15px d'espace en haut et en bas pour que le glow ne soit pas coupé */
-    padding: 15px 5px; 
+    /* Padding vertical pour laisser respirer l'effet "glow" actif */
+    padding: 15px 10px; 
 }
 
 .filter-chip {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.05); /* Fond sombre translucide */
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.6);
-    padding: 8px 18px;
-    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    
+    padding: 10px 20px; /* Taille de bouton plus confortable */
+    border-radius: 50px; /* Forme pilule */
     font-size: 0.85rem;
     font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-transform: capitalize;
+    text-transform: uppercase; /* Plus pro pour des types */
     letter-spacing: 0.5px;
+    
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Paramètre de couleur par défaut */
     --chip-color: #ffffff;
 }
 
+/* Effet Hover */
 .filter-chip:hover {
     background: rgba(255, 255, 255, 0.12);
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(-3px); /* Petit saut au survol */
     border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* ÉTAT ACTIF : L'effet néon stylisé */
 .filter-chip.active {
     background: var(--chip-color);
     color: white;
     border-color: var(--chip-color);
-    box-shadow: 0 0 15px var(--chip-color);
-    transform: scale(1.05);
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 20px var(--chip-color); /* Glow coloré sous le bouton */
+    transform: scale(1.08); /* Agrandissement subtil */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
+/* Style spécial pour le bouton "Tous" sélectionné */
 .filter-chip.active:first-child {
     background: white;
     color: black;
-    box-shadow: 0 0 15px rgba(255,255,255,0.4);
-    --chip-color: white;
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
 }
 
-/* --- 4. GRILLE & PAGINATION --- */
+/* 4. GRILLE & PAGINATION */
 .poke-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
@@ -190,7 +193,7 @@
 .page-btn:hover:not(:disabled) { background: white; color: black; }
 .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-/* --- 5. ETATS (Loading / Empty) --- */
+/* 5. ETATS (Loading / Empty) */
 .loading-container { height: 300px; width: 100%; display: flex; align-items: center; justify-content: center; }
 .spinner {
     width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.1);

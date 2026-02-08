@@ -1,14 +1,14 @@
 import { useState } from "react";
 import usePokemon from "../../hook/usePokemon";
 import PokeCard from "../pokeCard";
-import AddPokemon from "../AddPokemon"; // Attention à la majuscule selon ton fichier
+import AddPokemon from "../AddPokemon";
 import './index.css';
 
 const TYPE_COLORS = {
     Normal: '#A8A878', Fire: '#F08030', Water: '#6890F0', Grass: '#78C850',
     Electric: '#F8D030', Ice: '#98D8D8', Fighting: '#C03028', Poison: '#A040A0',
     Ground: '#E0C068', Flying: '#A890F0', Psychic: '#F85888', Bug: '#A8B820',
-    Rock: '#B8A038', Ghost: '#705898', Dragon: '#7038F8', Steel: '#B8B8D0', Fairy: '#EE99AC'
+    Rock: '#B8A038', Ghost: '#705898', Dragon: '#7038F8', Steel: '#B8B8D0', Fairy: '#EE99AC', Dark: '#705848'
 };
 
 const PokeList = () => {
@@ -51,7 +51,7 @@ const PokeList = () => {
                     <AddPokemon />
                 </div>
 
-                {/* Barre de Filtres (Chips) */}
+                {/* Section de filtrage repositionnée et aérée */}
                 <div className="filters-wrapper">
                     <div className="filters-container">
                         <button 
@@ -92,7 +92,6 @@ const PokeList = () => {
                         )}
                     </ul>
 
-                    {/* --- CORRECTION ICI --- */}
                     {/* On affiche la pagination tant qu'il y a des pokémons, même s'il n'y a qu'une page */}
                     {pokemons.length > 0 && (
                         <div className="glass-pagination">

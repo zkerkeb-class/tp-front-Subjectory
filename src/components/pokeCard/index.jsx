@@ -14,12 +14,23 @@ const STAT_LABELS = {
     "Special Defense": 'SPD', SpecialDefense: 'SPD', Speed: 'SPE'
 };
 
+const MAX_STATS_GEN1 = {
+    HP: 250,
+    Attack: 134,
+    Defense: 180,
+    SpecialAttack: 154,
+    SpecialDefense: 154,
+    Speed: 140
+};
+
 const STAT_ORDER = ['HP', 'Attack', 'Defense', 'SpecialAttack', 'SpecialDefense', 'Speed'];
 
 const PokeCard = ({ pokemon }) => {
     const navigate = useNavigate();
     const mainType = pokemon.type[0];
+    const secondaryType = pokemon.type[1];
     const color = TYPE_COLORS[mainType] || '#A8A878';
+    const secondColor = TYPE_COLORS[secondaryType] || '#A8A878';
 
     const getStatValue = (key) => {
         return pokemon.base[key] || pokemon.base[key.replace("Special", "Special ")] || 0;
@@ -49,29 +60,44 @@ const PokeCard = ({ pokemon }) => {
 
             <div className="card-info">
                 <h3 className="card-name">{pokemon.name.french}</h3>
-                <span className="card-main-type" style={{color: color}}>{mainType}</span>
+                
+                {/* Conteneur pour aligner les types proprement */}
+                <div className="types-badges-row">
+                    {pokemon.type.map((t) => (
+                        <span 
+                            key={t} 
+                            className="type-badge" 
+                            style={{ '--type-bg': TYPE_COLORS[t] || '#777' }}
+                        >
+                            {t}
+                        </span>
+                    ))}
+                </div>
             </div>
 
             {/* GRILLE DES STATS */}
             <div className="card-stats-grid">
                 {STAT_ORDER.map((statKey) => {
                     const value = getStatValue(statKey);
-                    // Plafond à 100% pour éviter le débordement
-                    const percent = Math.min((value / 150) * 100, 100); 
+                    const maxForThisStat = MAX_STATS_GEN1[statKey] || 150; 
+                    const percent = Math.min((value / maxForThisStat) * 100, 100); 
                     
                     return (
                         <div key={statKey} className="stat-item">
-                            {/* LIGNE 1 : TEXTE */}
+                            {/* Texte */}
                             <div className="stat-header-row">
                                 <span className="stat-label">{STAT_LABELS[statKey] || statKey}</span>
                                 <span className="stat-value">{value}</span>
                             </div>
 
-                            {/* LIGNE 2 : BARRE (C'est ici que ça doit s'afficher) */}
+                            {/* Barre */}
                             <div className="stat-bar-container">
                                 <div 
                                     className="stat-bar-fill" 
-                                    style={{width: `${percent}%`, backgroundColor: color}}
+                                    style={{
+                                        width: `${percent}%`, 
+                                        backgroundColor: color
+                                    }}
                                 ></div>
                             </div>
                         </div>

@@ -11,6 +11,15 @@ const TYPE_COLORS = {
     steel: '#B8B8D0', flying: '#A890F0'
 };
 
+const MAX_STATS_GEN1 = {
+    HP: 250,
+    Attack: 134,
+    Defense: 180,
+    SpecialAttack: 154,
+    SpecialDefense: 154,
+    Speed: 140
+};
+
 const PokemonDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -67,7 +76,7 @@ const PokemonDetails = () => {
             }}
         >
             <button className="back-btn" onClick={() => navigate(-1)}>
-                <span className="icon">←</span> Retour au Pokédex
+                <span>←</span> Retour au Pokédex
             </button>
 
             <div className="glass-container">
@@ -79,10 +88,6 @@ const PokemonDetails = () => {
 
                     <div className="info-section">
                         <div className="id-badge">N°{pokemonData.id.toString().padStart(3, '0')}</div>
-                        
-                        {/* SECTION NOM : 
-                            Affichage d'un input uniquement pour le nom en mode édition 
-                        */}
                         {editMode ? (
                             <div className="edit-main-info">
                                 <label className="edit-label">Nom du Pokémon</label>
@@ -96,22 +101,30 @@ const PokemonDetails = () => {
                         ) : (
                             <h1 className="poke-name">{pokemonData.name.french}</h1>
                         )}
-
-                        {/* SECTION TYPES : 
-                            Toujours affichée de la même manière, pas d'input ici 
-                        */}
+                        {/* SECTION TYPES DANS LA INFO-SECTION */}
                         <div className="types-row">
-                            {pokemonData.type.map(t => (
-                                <span key={t} className={`type-tag ${t.toLowerCase()}`}>{t}</span>
+                            {pokemonData.type.map((t) => (
+                                <span 
+                                    key={t} 
+                                    className="type-badge-detail" 
+                                    style={{ backgroundColor: TYPE_COLORS[t.toLowerCase()] || '#777' }}
+                                >
+                                    {t}
+                                </span>
                             ))}
                         </div>
                     </div>
                 </div>
 
                 <div className="stats-section">
-                    <h3 className="section-title">Base Stats</h3>
-                    <div className="stats-grid">
-                        {Object.entries(form.base).map(([key, value]) => (
+                <h3 className="section-title">Base Stats</h3>
+                <div className="stats-grid">
+                    {Object.entries(form.base).map(([key, value]) => {
+                        // Calcul du pourcentage basé sur le max de la catégorie
+                        const maxVal = MAX_STATS_GEN1[key] || 100;
+                        const percentage = Math.min((value / maxVal) * 100, 100);
+
+                        return (
                             <div key={key} className="stat-row">
                                 <span className="stat-label">{key}</span>
                                 {editMode ? (
@@ -130,15 +143,16 @@ const PokemonDetails = () => {
                                         <div className="stat-bar-bg">
                                             <div 
                                                 className="stat-bar-fill" 
-                                                style={{ width: `${Math.min((value / 200) * 100, 100)}%` }}
+                                                style={{ width: `${percentage}%` }}
                                             ></div>
                                         </div>
                                     </div>
                                 )}
                             </div>
-                        ))}
-                    </div>
+                        );
+                    })}
                 </div>
+            </div>
 
                 <div className="footer-controls">
                     {editMode ? (
