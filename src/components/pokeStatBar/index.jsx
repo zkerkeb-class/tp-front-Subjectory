@@ -1,5 +1,4 @@
 const PokeStatBar = ({ label, value, maxVal = 100, color, className = "stat-item" }) => {
-    // Calcul du pourcentage basé sur la valeur max fournie
     const percent = Math.min((value / maxVal) * 100, 100);
 
     return (

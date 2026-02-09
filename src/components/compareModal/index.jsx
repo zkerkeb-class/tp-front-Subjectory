@@ -1,19 +1,19 @@
 import PokeButton from '../pokeButton';
 import PokeStatBar from '../pokeStatBar';
 import { getWinner } from '../../utils/compare';
+import PokeTitle from '../pokeCard/pokeTitle';
+import PokeImage from '../pokeCard/pokeImage';
+import { STAT_ORDER } from '../../constants/pokemonConstants';
 import './index.css';
 
 const CompareModal = ({ pokemon1, pokemon2, onClose }) => {
-    // Fonction pour déterminer quelle valeur est la plus forte
     const getStatClass = (stat1, stat2) => {
         const result = getWinner(stat1, stat2);
         if (result === 'p1') return 'winner';
         if (result === 'p2') return 'loser';
         return 'tie';
     };
-
-    const stats = ['HP', 'Attack', 'Defense', 'SpecialAttack', 'SpecialDefense', 'Speed'];
-
+    
     return (
         <div className="modal-overlay">
             <div className="compare-card-glass">
@@ -25,14 +25,21 @@ const CompareModal = ({ pokemon1, pokemon2, onClose }) => {
                     {/* Pokémon 1 */}
                     <div className="duelist">
                         <div className='pokemon-identity'>
-                            <img src={pokemon1.image} alt={pokemon1.name.french} className="duel-img" />
-                            <h3 className="duel-name">{pokemon1.name.french}</h3>
+                            <PokeImage 
+                                imageUrl={pokemon1.image} 
+                                alt={pokemon1.name.french} 
+                                className="duel-img" 
+                            />
+                            <PokeTitle 
+                                name={pokemon1.name} 
+                                className="duel-name" 
+                            />
                         </div>
                     </div>
 
-                    {/* Zone centrale des Stats */}
+                    {/* Stats */}
                     <div className="duel-stats-center">
-                        {stats.map(stat => (
+                        {STAT_ORDER.map(stat => (
                             <div key={stat} className="stat-duel-row">
                                 <span className={`stat-val p1 ${getStatClass(pokemon1.base[stat], pokemon2.base[stat])}`}>
                                     {pokemon1.base[stat]}
@@ -48,8 +55,15 @@ const CompareModal = ({ pokemon1, pokemon2, onClose }) => {
                     {/* Pokémon 2 */}
                     <div className="duelist">
                         <div className='pokemon-identity'>
-                            <img src={pokemon2.image} alt={pokemon2.name.french} className="duel-img" />
-                            <h3 className="duel-name">{pokemon2.name.french}</h3>
+                            <PokeImage 
+                                imageUrl={pokemon2.image} 
+                                alt={pokemon2.name.french} 
+                                className="duel-img" 
+                            />
+                            <PokeTitle 
+                                name={pokemon2.name} 
+                                className="duel-name" 
+                            />
                         </div>
                     </div>
                 </div>
