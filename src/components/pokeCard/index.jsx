@@ -8,7 +8,7 @@ import PokeIdBadge from '../pokeIdBadge';
 import { TYPE_COLORS, STAT_ORDER, STAT_LABELS, MAX_STATS_GEN1 } from '../../constants/pokemonConstants';
 import './index.css';
 
-const PokeCard = ({ pokemon }) => {
+const PokeCard = ({ pokemon, onCompare, isSelectedForCompare }) => {
     const navigate = useNavigate();
     const { isFavorite, toggleFavorite } = useFavorites();
     const isFav = isFavorite(pokemon.id);
@@ -21,7 +21,7 @@ const PokeCard = ({ pokemon }) => {
 
     return (
         <div 
-            className="poke-card-modern" 
+            className={`poke-card-modern ${isSelectedForCompare ? 'comparing' : ''}`} 
             onClick={() => navigate(`/pokemon/${pokemon.id}`)}
             style={{ '--card-color': color }}
         >
@@ -37,7 +37,16 @@ const PokeCard = ({ pokemon }) => {
             >
                 {isFav ? '⭐' : '☆'}
             </button>
-            
+            <button 
+                className={`compare-select-btn ${isSelectedForCompare ? 'active' : ''}`}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onCompare(pokemon);
+                }}
+                title="Comparer ce Pokémon"
+            >
+                ⚖️
+            </button>
             <div className="card-header">
                 <PokeIdBadge id={pokemon.id} color={color} className="card-id" />
             </div>
