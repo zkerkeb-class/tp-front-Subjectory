@@ -3,26 +3,15 @@ import usePokemon from '../../hook/usePokemon';
 import { TYPE_COLORS, DEFAULT_STATS } from '../../constants/pokemonConstants';
 import PokeImage from '../pokeCard/pokeImage';
 import PokeStatInput from '../pokeStatInput';
+import PokeInputField from '../pokeInputField';
 import './index.css';
-
-const PokeInputField = ({ label, type = "text", value, onChange, placeholder, className = "modern-input" }) => (
-    <div className="input-group">
-        <input 
-            className={className}
-            type={type}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            required 
-        />
-        <label className="input-label">{label}</label>
-    </div>
-);
 
 const AddPokemon = () => {
     const { addPokemon } = usePokemon();
     const [isOpen, setIsOpen] = useState(false);
     const [glowColor, setGlowColor] = useState(TYPE_COLORS['Normal']);
+
+    // Pré-remplissage du formulaire avec des valeurs par défaut
     const [formData, setFormData] = useState({
         name: { french: '' },
         type: ['Normal'],
@@ -76,20 +65,21 @@ const AddPokemon = () => {
                                 <div className="image-preview-container">
                                     <div className="preview-glow" style={{background: glowColor}}></div>
                                     {formData.image ? (
-                                        <PokeImage 
-                                            imageUrl={formData.image} 
-                                            alt="Preview" 
-                                            className="image-preview" 
+                                        <PokeImage
+                                            imageUrl={formData.image}
+                                            alt="Preview"
+                                            className="image-preview"
                                         />
                                     ) : (
                                         <div className="image-placeholder">Pas d'image</div>
                                     )}
                                 </div>
-                                
+
                                 <PokeInputField 
                                     label="Nom"
-                                    placeholder="Nom (ex: Mewthree)"
+                                    placeholder="Nom (ex: ZongoLeDozo)"
                                     value={formData.name.french}
+                                    inputClass="modern-input"
                                     onChange={(e) => setFormData({...formData, name: {french: e.target.value}})}
                                 />
 
@@ -100,6 +90,7 @@ const AddPokemon = () => {
                                         onChange={(e) => setFormData({...formData, type: [e.target.value]})}
                                         style={{color: glowColor, borderColor: glowColor}}
                                     >
+                                        {/* Pour chaque type sélectionné, applique la bonne couleur */}
                                         {Object.keys(TYPE_COLORS).map(type => (
                                             <option key={type} value={type}>{type}</option>
                                         ))}
@@ -109,7 +100,7 @@ const AddPokemon = () => {
 
                                 <PokeInputField 
                                     label="URL Image"
-                                    placeholder="https://lien-image.com/..."
+                                    placeholder="https://chargercharger/..."
                                     value={formData.image}
                                     onChange={(e) => setFormData({...formData, image: e.target.value})}
                                 />

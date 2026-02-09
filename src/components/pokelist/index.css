@@ -1,4 +1,4 @@
-/* 1. CONTENEUR GLOBAL */
+/* Main container */
 .poke-list-container {
     width: 100%;
     min-height: 100vh;
@@ -10,7 +10,7 @@
     padding: 40px 20px;
 }
 
-/* 2. EN-TÊTE & TITRE */
+/* Header et titre */
 .list-header {
     width: 100%;
     max-width: 1200px;
@@ -33,7 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px; /* Espace entre le texte et le badge */
+    gap: 15px;
 }
 
 .total-badge {
@@ -57,7 +57,7 @@
     padding-left: 10px;
 }
 
-/* 3. BARRE DE CONTRÔLES */
+/* Controls bar */
 .controls-bar {
     display: flex;
     gap: 20px;
@@ -109,7 +109,7 @@
     transform: scale(1.02);
 }
 
-/* BOUTON effacer la recherche */
+/* Bouton pour effacer la recherche */
 .clear-search-btn {
     position: absolute;
     right: 15px;
@@ -134,7 +134,7 @@
     color: #ef4444;
 }
 
-/* 4. FILTRES DE TYPES */
+/* Filtre par type de poké */
 .filters-wrapper {
     width: 100%;
     max-width: 1000px;
@@ -188,7 +188,7 @@
     box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
 }
 
-/* 5. FAVORIS (FILTRE GLOBAL) */
+/* Favoris */
 .fav-filter-btn {
     display: flex;
     align-items: center;
@@ -238,7 +238,7 @@
     border-color: rgba(241, 196, 15, 0.3);
 }
 
-/* 6. GRILLE & PAGINATION */
+/* Pagination */
 .poke-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
@@ -276,7 +276,7 @@
 .page-btn:hover:not(:disabled) { background: white; color: black; }
 .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-/* 7. ETATS (Loading / No Result) */
+/* 7. Etat loading / noresult */
 .loading-container { height: 300px; width: 100%; display: flex; align-items: center; justify-content: center; }
 .spinner {
     width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.1);

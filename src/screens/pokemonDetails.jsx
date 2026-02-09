@@ -8,6 +8,7 @@ import PokeStatBar from '../components/pokeStatBar';
 import PokeIdBadge from '../components/pokeIdBadge';
 import PokeStatInput from '../components/pokeStatInput';
 import InternationalNames from '../components/internationalNames';
+import PokeInputField from '../components/PokeInputField';
 import { TYPE_COLORS, MAX_STATS_GEN1 } from '../constants/pokemonConstants';
 import './pokemonDetails.css';
 
@@ -89,15 +90,13 @@ const PokemonDetails = () => {
                             prefix="N°" 
                         />
                         {editMode ? (
-                            <div className="edit-main-info">
-                                <label className="edit-label">Nom du Pokémon</label>
-                                <input 
-                                    className="edit-name-input"
-                                    type="text" 
-                                    value={form.name.french} 
-                                    onChange={(e) => setForm({...form, name: {...form.name, french: e.target.value}})}
-                                />
-                            </div>
+                            <PokeInputField 
+                                label="Nom du Pokémon"
+                                value={form.name.french} 
+                                containerClass="edit-main-info"
+                                inputClass="edit-name-input"
+                                onChange={(e) => setForm({...form, name: {...form.name, french: e.target.value}})}
+                            />
                         ) : (
                             <>
                                 <PokeTitle 
