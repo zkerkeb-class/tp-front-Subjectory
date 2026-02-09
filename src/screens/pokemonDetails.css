@@ -520,6 +520,44 @@ html, body, #root {
     animation: spin 1s linear infinite;
 }
 
+/* Faiblesses pokemons */
+.effectiveness-section {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.weakness-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.weakness-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    min-width: 90px;
+}
+
+.multiplier {
+    font-weight: 900;
+    font-family: monospace;
+    font-size: 1.1rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.multiplier.x4 { color: #ff0000; background: rgba(255, 0, 0, 0.1); }
+.multiplier.x2 { color: #ff7700; background: rgba(255, 119, 0, 0.1); }
+
 /* Animations */
 @keyframes popIn { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

@@ -9,6 +9,7 @@ import PokeIdBadge from '../components/pokeIdBadge';
 import PokeStatInput from '../components/pokeStatInput';
 import InternationalNames from '../components/internationalNames';
 import PokeInputField from '../components/PokeInputField';
+import { getEffectiveness } from '../utils/typeChart';
 import { TYPE_COLORS, MAX_STATS_GEN1 } from '../constants/pokemonConstants';
 import './pokemonDetails.css';
 
@@ -16,11 +17,10 @@ const PokemonDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { pokemonData, loading, error } = usePokemon(id);
-    
     const [editMode, setEditMode] = useState(false);
     const [form, setForm] = useState(null);
     const [showModal, setShowModal] = useState(false);
-
+    const effectiveness = pokemonData ? getEffectiveness(pokemonData.type) : null;
     useEffect(() => {
         if (pokemonData) setForm(JSON.parse(JSON.stringify(pokemonData)));
     }, [pokemonData]);
@@ -153,7 +153,28 @@ const PokemonDetails = () => {
                     ))}
                 </div>
             </div>
-
+                {effectiveness && (
+                    <div className="effectiveness-section">
+                        <h3 className="section-title">Faiblesses Élémentaires</h3>
+                        <div className="weakness-grid">
+                            {Object.entries(effectiveness)
+                                .filter(([_, multiplier]) => multiplier > 1) 
+                                .sort((a, b) => b[1] - a[1])
+                                .map(([type, multiplier]) => (
+                                    <div key={type} className="weakness-card">
+                                        <PokeTypeBadge 
+                                            type={type} 
+                                            color={TYPE_COLORS[type]} 
+                                            className="type-badge-detail" 
+                                        />
+                                        <span className={`multiplier x${multiplier.toString().replace('.', '')}`}>
+                                            x{multiplier}
+                                        </span>
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
+                )}
                 <div className="footer-controls">
                     {editMode ? (
                         <div className="btn-group">
