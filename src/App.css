@@ -1,6 +1,16 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #0f0f12;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #0f0f12;
+    width: 100%;
 }
