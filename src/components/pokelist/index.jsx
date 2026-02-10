@@ -82,7 +82,7 @@ const PokeList = () => {
         >
             <div className="list-header">
                 <h1 className="main-title">
-                    Pokédex National
+                    Pokédex
                     <span className="total-badge">{total}</span>
                 </h1>
                 
