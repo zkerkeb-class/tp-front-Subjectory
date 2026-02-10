@@ -1,5 +1,4 @@
 import PokeButton from '../pokeButton';
-import PokeStatBar from '../pokeStatBar';
 import { getWinner } from '../../utils/compare';
 import PokeTitle from '../pokeCard/pokeTitle';
 import PokeImage from '../pokeCard/pokeImage';
@@ -7,6 +6,10 @@ import { STAT_ORDER } from '../../constants/pokemonConstants';
 import './index.css';
 
 const CompareModal = ({ pokemon1, pokemon2, onClose }) => {
+    // Calcul du score total pour chaque Pokémon
+    const totalP1 = STAT_ORDER.reduce((acc, stat) => acc + pokemon1.base[stat], 0);
+    const totalP2 = STAT_ORDER.reduce((acc, stat) => acc + pokemon2.base[stat], 0);
+
     const getStatClass = (stat1, stat2) => {
         const result = getWinner(stat1, stat2);
         if (result === 'p1') return 'winner';
@@ -23,21 +26,16 @@ const CompareModal = ({ pokemon1, pokemon2, onClose }) => {
 
                 <div className="duel-layout">
                     {/* Pokémon 1 */}
-                    <div className="duelist">
+                    <div className={`duelist ${totalP1 > totalP2 ? 'winner-card' : ''}`}>
+                        {totalP1 > totalP2 && <div className="winner-badge">WINNER</div>}
                         <div className='pokemon-identity'>
-                            <PokeImage 
-                                imageUrl={pokemon1.image} 
-                                alt={pokemon1.name.french} 
-                                className="duel-img" 
-                            />
-                            <PokeTitle 
-                                name={pokemon1.name} 
-                                className="duel-name" 
-                            />
+                            <PokeImage imageUrl={pokemon1.image} alt={pokemon1.name.french} className="duel-img" />
+                            <PokeTitle name={pokemon1.name} className="duel-name" />
+                            <span className="total-score">BST: {totalP1}</span>
                         </div>
                     </div>
 
-                    {/* Stats */}
+                    {/* Stats centrales */}
                     <div className="duel-stats-center">
                         {STAT_ORDER.map(stat => (
                             <div key={stat} className="stat-duel-row">
@@ -53,17 +51,12 @@ const CompareModal = ({ pokemon1, pokemon2, onClose }) => {
                     </div>
 
                     {/* Pokémon 2 */}
-                    <div className="duelist">
+                    <div className={`duelist ${totalP2 > totalP1 ? 'winner-card' : ''}`}>
+                        {totalP2 > totalP1 && <div className="winner-badge">WINNER</div>}
                         <div className='pokemon-identity'>
-                            <PokeImage 
-                                imageUrl={pokemon2.image} 
-                                alt={pokemon2.name.french} 
-                                className="duel-img" 
-                            />
-                            <PokeTitle 
-                                name={pokemon2.name} 
-                                className="duel-name" 
-                            />
+                            <PokeImage imageUrl={pokemon2.image} alt={pokemon2.name.french} className="duel-img" />
+                            <PokeTitle name={pokemon2.name} className="duel-name" />
+                            <span className="total-score">BST: {totalP2}</span>
                         </div>
                     </div>
                 </div>

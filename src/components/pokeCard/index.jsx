@@ -50,22 +50,16 @@ const PokeCard = ({ pokemon, onCompare, isSelectedForCompare }) => {
             <div className="card-header">
                 <PokeIdBadge id={pokemon.id} color={color} className="card-id" />
             </div>
-
+            <div className="img-aura"></div>
             <div className="card-image-container">
-                <div className="img-aura"></div>
                 <PokeImage imageUrl={pokemon.image} alt={pokemon.name.french} />
             </div>
-
             <div className="card-info">
                 <PokeTitle name={pokemon.name} />
                 
                 <div className="types-badges-row">
                     {pokemon.type.map((t) => (
-                        <PokeTypeBadge 
-                            key={t} 
-                            type={t} 
-                            color={TYPE_COLORS[t]} 
-                        />
+                        <PokeTypeBadge key={t} type={t} color={TYPE_COLORS[t]} size="small" />
                     ))}
                 </div>
             </div>

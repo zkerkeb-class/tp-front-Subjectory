@@ -14,7 +14,7 @@ const PokeStatInput = ({
             className={inputClassName}
             value={value} 
             onChange={(e) => onChange(parseInt(e.target.value) || 0)}
-            style={{ borderColor: color }}
+            style={{ borderColor: `${color}70` }}
         />
     </div>
 );

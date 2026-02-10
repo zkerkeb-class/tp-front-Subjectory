@@ -91,7 +91,6 @@ const PokemonDetails = () => {
                         />
                         {editMode ? (
                             <PokeInputField 
-                                label="Nom du Pokémon"
                                 value={form.name.french} 
                                 containerClass="edit-main-info"
                                 inputClass="edit-name-input"
@@ -110,12 +109,7 @@ const PokemonDetails = () => {
                         )}
                         <div className="types-row">
                             {pokemonData.type.map((t) => (
-                                <PokeTypeBadge
-                                    key={t} 
-                                    type={t} 
-                                    color={TYPE_COLORS[t]} 
-                                    className="type-badge-detail" 
-                                />
+                                <PokeTypeBadge key={t} type={t} color={TYPE_COLORS[t]} size="large" />
                             ))}
                         </div>
                     </div>

@@ -318,6 +318,49 @@ html, body, #root {
     border: none;
 }
 
+/* Version SMALL pour les PokeCards */
+.type-badge-metallic-sm {
+    font-weight: 900;
+    margin-top: -10px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-style: italic;
+    background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        var(--type-color) 45%,
+        var(--type-color) 60%,
+        #000000 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.8));
+    padding: 2px 4px;
+    display: inline-block;
+}
+
+/* Version LARGE pour PokemonDetails */
+.type-badge-metallic-lg {
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-style: italic;
+    background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        var(--type-color) 45%,
+        var(--type-color) 60%,
+        #000000 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.8));
+    padding: 4px 8px;
+    display: inline-block;
+}
+
 .edit-btn { background: #2563eb; color: white; }
 .delete-btn { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid #ef4444; }
 .save-btn { background: #10b981; color: white; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
@@ -575,7 +618,7 @@ html, body, #root {
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(-8px); }
 }
 
 /* Responsive : Passe à 1 colonne sur mobile */

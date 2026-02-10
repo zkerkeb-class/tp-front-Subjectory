@@ -1,15 +1,13 @@
-const PokeTypeBadge = ({ type, color, className = "type-badge", style = {} }) => {
-    const combinedStyle = {
-        '--type-bg': color || '#777',
-        backgroundColor: color || '#777',
-        ...style
+const PokeTypeBadge = ({ type, color, size = "small" }) => {
+    const style = {
+        '--type-color': color || '#777',
     };
 
+    // On applique une classe différente selon la prop size
+    const className = size === "large" ? "type-badge-metallic-lg" : "type-badge-metallic-sm";
+
     return (
-        <span 
-            className={className} 
-            style={combinedStyle}
-        >
+        <span className={className} style={style}>
             {type}
         </span>
     );
