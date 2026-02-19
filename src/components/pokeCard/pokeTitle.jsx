@@ -1,7 +1,6 @@
-
-const PokeTitle = ({ name }) => {
+const PokeTitle = ({ name, className = "card-name" }) => {
     return (
-        <span className="poke-title">{name}</span>
+        <h3 className={className}>{name.french}</h3>
     );
 }
 

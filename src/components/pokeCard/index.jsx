@@ -1,46 +1,82 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router";
-import usePokemon from "../../hook/usePokemon";
-
+import { useNavigate } from 'react-router';
+import useFavorites from '../../hook/useFavorites';
+import PokeImage from './pokeImage';
+import PokeTitle from './pokeTitle';
+import PokeTypeBadge from './pokeTypeBadge';
+import PokeStatBar from '../pokeStatBar';
+import PokeIdBadge from '../pokeIdBadge';
+import { TYPE_COLORS, STAT_ORDER, STAT_LABELS, MAX_STATS_GEN1 } from '../../constants/pokemonConstants';
 import './index.css';
-import PokeTitle from "./pokeTitle";
-import PokeImage from "./pokeImage";
 
-const PokeCard = ({ pokemon }) => {
-    const {pokemonData, loading} = usePokemon(pokemon.url);
-    console.log('pokeData',pokemonData)
+const PokeCard = ({ pokemon, onCompare, isSelectedForCompare }) => {
+    const navigate = useNavigate();
+    const { isFavorite, toggleFavorite } = useFavorites();
+    const isFav = isFavorite(pokemon.id);
+    const mainType = pokemon.type[0];
+    const color = TYPE_COLORS[mainType] || '#A8A878';
 
-
-    if (loading) {
-        return <p>Chargement du Pokémon...</p>;
-    }
-
+    const getStatValue = (key) => {
+        return pokemon.base[key] || pokemon.base[key.replace("Special", "Special ")] || 0;
+    };
 
     return (
-        <Link to={`/pokemonDetails/${encodeURIComponent(pokemon.url)}`}>
-        <div className="poke-card">
-            <div className={`poke-card-header poke-type-${pokemonData.types?.[0]?.type?.name}`}>
+        <div 
+            className={`poke-card-modern ${isSelectedForCompare ? 'comparing' : ''}`} 
+            onClick={() => navigate(`/pokemon/${pokemon.id}`)}
+            style={{ '--card-color': color }}
+        >
+            <div className="card-glow"></div>
+
+            {/* Bouton favori */}
+            <button 
+                className={`fav-btn ${isFav ? 'active' : ''}`}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(pokemon.id);
+                }}
+            >
+                {isFav ? '⭐' : '☆'}
+            </button>
+            <button 
+                className={`compare-select-btn ${isSelectedForCompare ? 'active' : ''}`}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onCompare(pokemon);
+                }}
+                title="Comparer ce Pokémon"
+            >
+                ⚖️
+            </button>
+            <div className="card-header">
+                <PokeIdBadge id={pokemon.id} color={color} className="card-id" />
+            </div>
+            <div className="img-aura"></div>
+            <div className="card-image-container">
+                <PokeImage imageUrl={pokemon.image} alt={pokemon.name.french} />
+            </div>
+            <div className="card-info">
                 <PokeTitle name={pokemon.name} />
+                
+                <div className="types-badges-row">
+                    {pokemon.type.map((t) => (
+                        <PokeTypeBadge key={t} type={t} color={TYPE_COLORS[t]} size="small" />
+                    ))}
+                </div>
             </div>
-            <div className="poke-image-background">
-                <PokeImage imageUrl={pokemonData.sprites?.other?.['official-artwork']?.front_default} />
-            </div>
-            <div>
 
-                {pokemonData.stats?.map((stat) => {
-                    return(
-                        <div className="poke-stat-row" key={stat.stat.name}>
-                            <span className={`poke-type-font poke-type-${stat.stat.name}`}>{stat.stat.name}</span>
-
-                            <span className="poke-type-font poke-stat-value">{stat.base_stat}</span>
-                        </div>
-                    ) 
-                })}    
-
+            <div className="card-stats-grid">
+                {STAT_ORDER.map((statKey) => (
+                    <PokeStatBar 
+                        key={statKey}
+                        label={STAT_LABELS[statKey] || statKey}
+                        value={getStatValue(statKey)}
+                        maxVal={MAX_STATS_GEN1[statKey]}
+                        color={color}
+                    />
+                ))}
             </div>
         </div>
-        </Link>
     );
-}
+};
 
 export default PokeCard;
