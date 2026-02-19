@@ -1,5 +1,6 @@
 # Présentation des fonctionnalités
-https://www.youtube.com/watch?v=nvTyp-F_PSo
+https://www.youtube.com/watch?v=nvTyp-F_PSo (1er jus)
+https://youtu.be/3RJYKveolQo (2ème jus, après tes conseils)
 
 # React + Vite
 
